@@ -482,7 +482,7 @@ ComputeMotifScore <- function(motif.lib, snp.info, ncores = 1) {
 
   ncores <- min(c(ncores, length(snp.info$ref_base)))
 
-  startParallel(ncores)
+  cl <- startParallel(ncores)
 
   motif_score_par <- foreach(i = seq(ncores)) %dopar% {
     k <- as.integer(length(snp.info$ref_base) / ncores)
@@ -531,7 +531,7 @@ ComputeMotifScore <- function(motif.lib, snp.info, ncores = 1) {
 
   }
 
-  endParallel()
+  endParallel(cl)
 
   motif.scores <- motif_score_par[[1]]
   if(ncores > 1) {

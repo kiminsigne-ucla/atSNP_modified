@@ -47,7 +47,7 @@ startParallel <- function(ncores) {
 }
 
 #' @import doParallel
-endParallel <- function() {
+endParallel <- function(cl) {
   if(.Platform$OS.type != "unix") {
     stopCluster(cl)
   }
