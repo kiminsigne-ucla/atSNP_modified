@@ -733,7 +733,7 @@ MatchSubsequence <- function(snp.tbl, motif.scores, motif.lib, snpids = NULL, mo
 ComputePValues <- function(motif.lib, snp.info, motif.scores, ncores = 1, figdir = NULL) {
   ncores <- min(c(ncores, length(motif.lib)))
 
-  startParallel(ncores)
+  cl <- startParallel(ncores)
 
   results <- as.list(seq_along(motif.lib))
   nsets <- as.integer(length(motif.lib) / ncores)
@@ -953,7 +953,7 @@ ComputePValues <- function(motif.lib, snp.info, motif.scores, ncores = 1, figdir
          pval_rank = pval_rank)
   }
 
-  endParallel()
+  endParallel(cl)
 
   for(i in seq(length(results))) {
     motif.scores[results[[i]]$rowids, pval_ref := results[[i]]$pval_a[, 1]]
